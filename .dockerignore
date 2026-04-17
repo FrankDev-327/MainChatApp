@@ -1,0 +1,14 @@
+node_modules
+dist
+.env
+temp
+.vscode
+.eslintrc.js
+.prettierrc
+k6-chat-sky-app-test.js
+.html
+.md
+.git
+.mjs
+.jpg
+.drone.yml

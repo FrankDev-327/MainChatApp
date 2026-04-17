@@ -1,0 +1,41 @@
+kind: pipeline
+type: kubernetes
+name: default
+
+steps:
+- name: test
+  image: node:alpine
+  environment:
+    NOMINATIM_URL: https://geocoder.artronic.net
+    FIELD_HUB_BUCKET_NAME: filedhub
+    FIELD_HUB_ROOT_DIR: filedhub
+    FIELD_HUB_BUCKET_URL_CHAT: fsn1.your-objectstorage.com
+    FIELD_HUB_BUCKET_ACCESS_KEY: IH7K69UAVR4G1V80OOM6
+  commands:
+  - echo **INSTALING GLOBAL PNPM **
+  - npm i -g pnpm
+  - echo **INSTALLING PACKAGES**
+  - pnpm i
+  - echo **RUNNING UNIT TEST**
+  - pnpm run test:units
+  - echo **END OF UNIT TEST**
+
+
+- name: build-docker
+  image: plugins/docker
+  settings:
+    registry: git.internal.artronic.net
+    username:
+      from_secret: DOCKER_USER
+    password:
+      from_secret: DOCKER_PASSWORD
+    repo: git.internal.artronic.net/software_api/temporarymsgapp
+    tags:
+    - dev
+    
+trigger:
+  branch:
+    - dev
+    - test
+  event:
+    - push
