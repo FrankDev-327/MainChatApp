@@ -26,6 +26,12 @@ export const totalMessagesConter = new Gauge({
   labelNames: ['method'],
 });
 
+export const totalUserCreatedGauge = new Gauge({
+  name: 'chat_app_user_created_total',
+  help: 'Total number of users created',
+  labelNames: ['user_created'],
+});
+
 export const totalSocketCounter = new Counter({
   name: 'chat_app_socket_ws_exception_total',
   help: 'Total number of WS error exception received',
