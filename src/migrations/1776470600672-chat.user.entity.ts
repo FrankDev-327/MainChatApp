@@ -124,7 +124,7 @@ export class ChatUserEntity1776470600672 implements MigrationInterface {
                 }));
             }
         } catch (error) {
-            console.log(error);
+            console.log(error.message);
 
         }
     }
@@ -136,7 +136,7 @@ export class ChatUserEntity1776470600672 implements MigrationInterface {
                 await queryRunner.dropTable(this.tableName);
             }
         } catch (error) {
-
+            console.log(error.message);
         }
 
     }
