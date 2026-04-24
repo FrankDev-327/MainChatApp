@@ -27,13 +27,13 @@ export class ChaskQrCode {
     @Column({ type: 'varchar', length: 10 })
     pin: string;
 
-    @Column({ name: 'created_at', type: 'datetime' })
+    @Column({ name: 'created_at', type: 'timestamp' })
     createdAt: Date;
 
-    @Column({ name: 'expires_at', type: 'datetime' })
+    @Column({ name: 'expires_at', type: 'timestamp' })
     expiresAt: Date;
 
-    @Column({ name: 'used_at', type: 'datetime', nullable: true })
+    @Column({ name: 'used_at', type: 'timestamp', nullable: true })
     usedAt: Date | null;
 
     @Column({

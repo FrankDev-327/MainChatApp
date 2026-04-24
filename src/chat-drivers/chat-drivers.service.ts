@@ -16,6 +16,18 @@ export class ChatDriversService {
     private loggerPrint: LoggerPrint,
   ) {}
 
+  async createChatDriver(
+    driverData: Partial<ChatDriverEntity>,
+  ): Promise<ChatDriverEntity> {
+    try {
+      const newDriver = this.chatDriverRepository.create(driverData);
+      return await this.chatDriverRepository.save(newDriver);
+    } catch (error) {
+      this.loggerPrint.error(`Error creating chat driver: ${error.message}`);
+      throw new BadGatewayException('Failed to create chat driver');
+    }
+  }
+
   async findDriverDetailsByDriverId(
     driverId: number,
   ): Promise<ChatDriverEntity | null> {

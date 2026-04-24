@@ -54,13 +54,13 @@ export class ChaskDeviceRegistrationEntity {
 
     @Column({
         name: 'activated_at',
-        type: 'datetime',
+        type: 'timestamp',
     })
     activatedAt: Date;
 
     @Column({
         name: 'last_connected_at',
-        type: 'datetime',
+        type: 'timestamp',
         nullable: true,
     })
     lastConnectedAt: Date | null;
@@ -74,7 +74,7 @@ export class ChaskDeviceRegistrationEntity {
 
     @Column({
         name: 'revoked_at',
-        type: 'datetime',
+        type: 'timestamp',
         nullable: true,
         default: null,
     })

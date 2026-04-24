@@ -34,20 +34,20 @@ export class ChatMessageEntity {
   })
   messageType: 'TEXT' | 'IMAGE' | 'COORDINATES' | 'TEMPLATE' | 'DOCUMENT';
 
-  @Column({ name: 'is_urgent', type: 'tinyint', width: 1, default: 0 })
+  @Column({ name: 'is_urgent', type: 'boolean', width: 1, default: 0 })
   isUrgent: number;
 
-  @Column({ name: 'is_notification', type: 'tinyint', width: 1, default: 0 })
+  @Column({ name: 'is_notification', type: 'boolean', width: 1, default: 0 })
   isNotification: number;
 
   @Column({
     name: 'created_at',
-    type: 'datetime',
+    type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP',
   })
   createdAt: string | null;
 
-  @Column({ name: 'stored_at', type: 'datetime', nullable: true })
+  @Column({ name: 'stored_at', type: 'timestamp', nullable: true })
   storedAt: string | null;
 
   @Column({ name: 'position', type: 'text', nullable: true })

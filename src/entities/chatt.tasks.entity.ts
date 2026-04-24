@@ -71,10 +71,10 @@ export class ChatTaskEntity {
   })
   deadlineType?: 'ASAP' | 'BY_DATETIME' | 'BETWEEN' | 'ANYTIME';
 
-  @Column({ name: 'deadlineStart', type: 'datetime', nullable: true })
+  @Column({ name: 'deadlineStart', type: 'timestamp', nullable: true })
   deadlineStart?: Date | null;
 
-  @Column({ name: 'deadlineEnd', type: 'datetime', nullable: true })
+  @Column({ name: 'deadlineEnd', type: 'timestamp', nullable: true })
   deadlineEnd?: Date | null;
 
   @Column({ name: 'location', type: 'text', nullable: true })
@@ -85,21 +85,21 @@ export class ChatTaskEntity {
 
   @Column({
     name: 'createdAt',
-    type: 'datetime',
+    type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP',
   })
   createdAt: Date;
 
-  @Column({ name: 'storedAt', type: 'datetime', nullable: true })
+  @Column({ name: 'storedAt', type: 'timestamp', nullable: true })
   storedAt?: Date;
 
-  @Column({ name: 'receivedAt', type: 'datetime', nullable: true })
+  @Column({ name: 'receivedAt', type: 'timestamp', nullable: true })
   receivedAt?: Date;
 
-  @Column({ name: 'readAt', type: 'datetime', nullable: true })
+  @Column({ name: 'readAt', type: 'timestamp', nullable: true })
   readAt?: Date;
 
-  @Column({ name: 'rejectedAt', type: 'datetime', nullable: true })
+  @Column({ name: 'rejectedAt', type: 'timestamp', nullable: true })
   rejectedAt?: Date;
 
   @Column({
@@ -110,7 +110,7 @@ export class ChatTaskEntity {
   })
   rejectedReason?: string;
 
-  @Column({ name: 'archivedAt', type: 'datetime', nullable: true })
+  @Column({ name: 'archivedAt', type: 'timestamp', nullable: true })
   archivedAt?: Date;
 
   @Column({ name: 'title', type: 'varchar', length: 255, nullable: true })

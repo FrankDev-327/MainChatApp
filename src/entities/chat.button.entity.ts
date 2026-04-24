@@ -20,7 +20,7 @@ export class ChatButtonEntity {
 
   @PrimaryColumn({
     name: 'ButtonTime',
-    type: 'datetime',
+    type: 'timestamp',
   })
   buttonTime: Date;
 
@@ -58,7 +58,7 @@ export class ChatButtonEntity {
 
   @Column({
     name: 'SystemTime',
-    type: 'datetime',
+    type: 'timestamp',
     nullable: true,
   })
   systemTime: Date | null;

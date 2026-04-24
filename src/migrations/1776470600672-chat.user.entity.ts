@@ -12,7 +12,7 @@ export class ChatUserEntity1776470600672 implements MigrationInterface {
                         {
                             name: 'UserID',
                             type: 'int',
-                            unsigned: true,
+
                             isPrimary: true,
                             isGenerated: true,
                             generationStrategy: 'increment',
@@ -20,7 +20,7 @@ export class ChatUserEntity1776470600672 implements MigrationInterface {
                         {
                             name: 'UserRefID',
                             type: 'int',
-                            unsigned: true,
+
                             default: 0,
                         },
                         {
@@ -38,37 +38,37 @@ export class ChatUserEntity1776470600672 implements MigrationInterface {
                         {
                             name: 'UserGroupID',
                             type: 'int',
-                            unsigned: true,
+
                             default: 0,
                         },
                         {
                             name: 'UserDriverID',
                             type: 'int',
-                            unsigned: true,
+
                             default: 0,
                         },
                         {
                             name: 'UserActive',
                             type: 'enum',
                             enum: ['Y', 'N'],
-                            default: "Y",
+                            default: "'Y'",
                         },
                         {
                             name: 'IsAdmin',
                             type: 'enum',
                             enum: ['Y', 'N', 'A'],
-                            default: "N",
+                            default: "'N'",
                         },
                         {
                             name: 'UserViewDays',
                             type: 'int',
-                            default: -1,
+                            default: 0,
                         },
                         {
                             name: 'UserCanCall',
                             type: 'enum',
                             enum: ['Y', 'N'],
-                            default: "N",
+                            default: "'N'",
                         },
                         {
                             name: 'UserWatchAlarm',
@@ -80,47 +80,51 @@ export class ChatUserEntity1776470600672 implements MigrationInterface {
                             name: 'UserSendSMS',
                             type: 'enum',
                             enum: ['Y', 'N'],
-                            default: "N",
+                            default: "'N'",
                         },
                         {
                             name: 'UserCanChat',
                             type: 'enum',
                             enum: ['Y', 'N'],
-                            default: "N",
+                            default: "'N'",
                         },
                         {
                             name: 'MTEventPriv',
                             type: 'int',
-                            unsigned: true,
+
                             default: 0,
                         },
                         {
                             name: 'UserLastLogin',
-                            type: 'datetime',
+                            type: 'timestamp',
                             isNullable: true,
                         },
                         {
                             name: 'CargoPriv',
                             type: 'int',
+                            default: 0,
                         },
                         {
                             name: 'CommandPriv',
                             type: 'int',
+                            default: 0,
                         },
                         {
                             name: 'AlarmSetupPriv',
                             type: 'int',
+                            default: 0,
                         },
                         {
                             name: 'UserRoleId',
                             type: 'int',
-                            unsigned: true,
+
                             default: 0,
                         },
                     ],
                 }));
             }
         } catch (error) {
+            console.log(error);
 
         }
     }
@@ -132,7 +136,7 @@ export class ChatUserEntity1776470600672 implements MigrationInterface {
                 await queryRunner.dropTable(this.tableName);
             }
         } catch (error) {
-            
+
         }
 
     }

@@ -21,8 +21,8 @@ export class ChatDriverEntity {
   @Column({ name: 'DriverDesc', type: 'varchar', length: 250, nullable: true })
   driverDesc: string | null;
 
-  @Column({ name: 'DriverImage', type: 'blob', nullable: true })
-  driverImage: Buffer | null;
+  @Column({ name: 'DriverImage', type: 'varchar', length: 255, nullable: true })
+  driverImage: string | null;
 
   @Index()
   @Column({ name: 'Button', type: 'bigint', unsigned: true, default: () => '0' })
@@ -67,15 +67,15 @@ export class ChatDriverEntity {
   @Column({ name: 'WorkPlaceID', type: 'int', unsigned: true, default: 0 })
   workPlaceId: number;
 
-  @Column({ name: 'WorkFrom', type: 'date', nullable: true })
+  @Column({ name: 'WorkFrom', type: 'timestamp', nullable: true })
   workFrom: string | null;
 
-  @Column({ name: 'WorkTill', type: 'date', nullable: true })
+  @Column({ name: 'WorkTill', type: 'timestamp', nullable: true })
   workTill: string | null;
 
   @Column({
     name: 'WorkContractType',
-    type: 'tinyint',
+    type: 'boolean',
     unsigned: true,
     default: 0,
   })
@@ -92,7 +92,7 @@ export class ChatDriverEntity {
   @Column({ name: 'LicenseNumber', type: 'varchar', length: 25, default: '' })
   licenseNumber: string;
 
-  @Column({ name: 'LicenseValidTill', type: 'datetime', nullable: true })
+  @Column({ name: 'LicenseValidTill', type: 'timestamp', nullable: true })
   licenseValidTill: Date | null;
 
   @Column({ name: 'LicenseCat', type: 'int', unsigned: true, default: 0 })
@@ -103,7 +103,7 @@ export class ChatDriverEntity {
 
   @Column({
     name: 'DriverBirthDate',
-    type: 'date',
+    type: 'timestamp',
     default: '1975-01-01',
   })
   driverBirthDate: string;
@@ -128,7 +128,7 @@ export class ChatDriverEntity {
   @Column({ name: 'DriverFMSCard', type: 'varchar', length: 25, default: '' })
   driverFmsCard: string;
 
-  @Column({ name: 'DriverFMSCardValidTill', type: 'date', nullable: true })
+  @Column({ name: 'DriverFMSCardValidTill', type: 'timestamp', nullable: true })
   driverFmsCardValidTill: string | null;
 
   @Column({ name: 'DriverCategoryID', type: 'int', unsigned: true, default: 0 })

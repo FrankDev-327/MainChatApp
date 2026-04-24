@@ -32,7 +32,7 @@ export class CarsEntity {
   @Column({ name: 'CarName', type: 'varchar', length: 255, nullable: true })
   name: string | null;
 
-  @Column({ name: 'CarIconID', type: 'tinyint', unsigned: true, default: 0 })
+  @Column({ name: 'CarIconID', type: 'boolean', unsigned: true, default: 0 })
   iconId: number;
 
   @Column({ name: 'CarColor', type: 'int', unsigned: true, default: 0 })
@@ -41,10 +41,10 @@ export class CarsEntity {
   @Column({ name: 'CarDescription', type: 'varchar', length: 255, nullable: true })
   description: string | null;
 
-  @Column({ name: 'CarStatus', type: 'tinyint', unsigned: true, default: 0 })
+  @Column({ name: 'CarStatus', type: 'boolean', unsigned: true, default: 0 })
   status: number;
 
-  @Column({ name: 'CarLastTime', type: 'datetime', nullable: true })
+  @Column({ name: 'CarLastTime', type: 'timestamp', nullable: true })
   lastTime: Date | null;
 
   @Column({ name: 'CarDataPhone', type: 'varchar', length: 25, nullable: true })
@@ -64,7 +64,7 @@ export class CarsEntity {
   @Column({ name: 'CarSpend', type: 'float', default: 10 })
   spend: number;
 
-  @Column({ name: 'CarDeviceVersion', type: 'tinyint', unsigned: true, default: 3 })
+  @Column({ name: 'CarDeviceVersion', type: 'boolean', unsigned: true, default: 3 })
   deviceVersion: number;
 
   @Column({ name: 'CarDeviceName', type: 'varchar', length: 15, default: '' })
@@ -82,16 +82,16 @@ export class CarsEntity {
   @Column({ name: 'CarGPSStatus', type: 'smallint', unsigned: true, default: 0 })
   gpsStatus: number;
 
-  @Column({ name: 'CarConfig', type: 'blob', nullable: true })
+  @Column({ name: 'CarConfig', type: 'json', nullable: true })
   config: Buffer | null;
 
-  @Column({ name: 'CarExtConfig', type: 'blob', nullable: true })
+  @Column({ name: 'CarExtConfig', type: 'json', nullable: true })
   extConfig: Buffer | null;
 
-  @Column({ name: 'CarEcoConfig', type: 'blob', nullable: true })
+  @Column({ name: 'CarEcoConfig', type: 'json', nullable: true })
   ecoConfig: Buffer | null;
 
-  @Column({ name: 'CarTachoInfo', type: 'blob', nullable: true })
+  @Column({ name: 'CarTachoInfo', type: 'json', nullable: true })
   tachoInfo: Buffer | null;
 
   @Column({ name: 'CarIMEI', type: 'varchar', length: 25, nullable: true })
@@ -119,19 +119,19 @@ export class CarsEntity {
   @Column({ name: 'CarLink', type: 'varchar', length: 255, nullable: true })
   link: string | null;
 
-  @Column({ name: 'CarAlarm1', type: 'tinyint', unsigned: true, default: 0 })
+  @Column({ name: 'CarAlarm1', type: 'boolean', unsigned: true, default: 0 })
   alarm1: number;
 
-  @Column({ name: 'CarAlarm2', type: 'tinyint', unsigned: true, default: 0 })
+  @Column({ name: 'CarAlarm2', type: 'boolean', unsigned: true, default: 0 })
   alarm2: number;
 
-  @Column({ name: 'CarAlarm3', type: 'tinyint', unsigned: true, default: 0 })
+  @Column({ name: 'CarAlarm3', type: 'boolean', unsigned: true, default: 0 })
   alarm3: number;
 
-  @Column({ name: 'CarAlarm4', type: 'tinyint', unsigned: true, default: 0 })
+  @Column({ name: 'CarAlarm4', type: 'boolean', unsigned: true, default: 0 })
   alarm4: number;
 
-  @Column({ name: 'CarAlarm5', type: 'tinyint', unsigned: true, default: 0 })
+  @Column({ name: 'CarAlarm5', type: 'boolean', unsigned: true, default: 0 })
   alarm5: number;
 
   @Column({ name: 'Button', type: 'bigint', unsigned: true, default: 0 })
@@ -179,7 +179,7 @@ export class CarsEntity {
   @Column({ name: 'VIN', type: 'varchar', length: 25, nullable: true })
   vin: string | null;
 
-  @Column({ name: 'HHTID', type: 'tinyint', unsigned: true, default: 0 })
+  @Column({ name: 'HHTID', type: 'boolean', unsigned: true, default: 0 })
   hhtId: number;
 
   @Column({ name: 'HHTVersion', type: 'int', unsigned: true, default: 0 })

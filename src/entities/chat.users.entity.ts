@@ -63,7 +63,7 @@ export class ChatUser {
   @Column({ name: 'MTEventPriv', type: 'int', unsigned: true, default: 0 })
   mtEventPriv: number;
 
-  @Column({ name: 'UserLastLogin', type: 'datetime', nullable: true })
+  @Column({ name: 'UserLastLogin', type: 'timestamp', nullable: true })
   userLastLogin: Date | null;
 
   @Column({ name: 'CargoPriv', type: 'int', unsigned: true, default: 0 })
