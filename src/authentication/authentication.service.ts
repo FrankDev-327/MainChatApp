@@ -47,13 +47,13 @@ export class AuthenticationService {
             return { token: tokenGenerated }
         } catch (error) {
             totalRequestConter.inc({ method: 'POST', route: '/authentication', status: '500' });
-            this.loggerPrint.error(`Error during user validation: ${error.message}`);
+            this.loggerPrint.error(`Error during user validation: ${error}`);
             if (error instanceof NotFoundException) {
                 this.loggerPrint.error(error.message);
                 throw new NotFoundException(error.message);
             }
 
-            this.loggerPrint.error(error.message);
+            this.loggerPrint.error(error);
             throw new BadRequestException('Token generation failed.');
         }
     }

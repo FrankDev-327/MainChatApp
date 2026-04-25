@@ -150,7 +150,7 @@ export class ChatMessengerGateway
       });
     } catch (error) {
       this.loggerPrint.error(
-        `Connection error for client ${client.id} : ${error.message}`,
+        `Connection error for client ${client.id} : ${error}`,
       );
       totalSocketCounter.inc({
         method: 'handle-token',

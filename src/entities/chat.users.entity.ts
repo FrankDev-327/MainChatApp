@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, BeforeInsert, BeforeUpdate } from 'typeorm';
+import { Helper } from '../utils/helper';
 
 export enum YesNo {
   Y = 'Y',
@@ -24,6 +25,20 @@ export class ChatUser {
 
   @Column({ name: 'UserPassword', type: 'varchar', length: 127, nullable: true })
   UserPassword: string;
+
+  @BeforeInsert()
+  async hashPassword() {
+    if (this.UserPassword) {
+      this.UserPassword = await Helper.hashPassword(this.UserPassword);
+    }
+  }
+
+  @BeforeUpdate()
+  async hashPasswordOnUpdate() {
+    if (this.UserPassword) {
+      this.UserPassword = await Helper.hashPassword(this.UserPassword);
+    }
+  }
 
   @Column({ name: 'UserGroupID', type: 'int', default: 0 })
   UserGroupID: number;

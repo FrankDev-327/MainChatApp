@@ -48,13 +48,13 @@ export class TaskService {
       timer({ method: 'POST', route: 'task/create', status: '200' });
       return taskCreated;
     } catch (error) {
-      this.loggerPrint.error(error.message);
+      this.loggerPrint.error(error);
       totalRequestConter.inc({
         method: ' POST',
         route: 'task/create',
         status: 500,
       });
-      throw new BadRequestException(error.message);
+      throw new BadRequestException(error);
     }
   }
 
@@ -89,8 +89,8 @@ export class TaskService {
         route: 'task/:taskId',
         status: 500,
       });
-      this.loggerPrint.error(error.message);
-      throw new BadRequestException(error.message);
+      this.loggerPrint.error(error);
+      throw new BadRequestException(error);
     }
   }
 
@@ -154,8 +154,8 @@ export class TaskService {
         route: 'task/drivers/:driverId',
         status: 500,
       });
-      this.loggerPrint.error(error.message);
-      throw new BadRequestException(error.message);
+      this.loggerPrint.error(error);
+      throw new BadRequestException(error);
     }
   }
 }

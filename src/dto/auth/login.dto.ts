@@ -12,8 +12,8 @@ export class LoginUserDto {
   @IsString({ message: 'Password must be a string' })
   @MinLength(8, { message: 'String is too short' })
   @MaxLength(12, { message: 'String is too long' })
-  password: string;
+  password?: string;
 
   @ApiProperty({ example: '' })
-  checkTypeAuth: string;
+  checkTypeAuth?: string;
 }

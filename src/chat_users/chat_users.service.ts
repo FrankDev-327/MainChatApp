@@ -24,7 +24,7 @@ export class ChatUsersService {
       return savedUser;
     } catch (error) {
       this.loggerPrint.error(`Error creating chat user: ${error}`);
-      throw new BadRequestException(error.message);
+      throw new BadRequestException(error);
     }
   }
 
@@ -34,7 +34,7 @@ export class ChatUsersService {
       return await this.chatUsersRepository.findOneBy({ UserID: userId });
     } catch (error) {
       this.loggerPrint.error(`Error updating chat user: ${error}`);
-      throw new BadRequestException(error.message);
+      throw new BadRequestException(error);
     }
   }
 
@@ -44,7 +44,16 @@ export class ChatUsersService {
       return user;
     } catch (error) {
       this.loggerPrint.error(`Error fetching chat user by username: ${error}`);
-      throw new BadRequestException(error.message);
+      throw new BadRequestException(error);
+    }
+  }
+
+  async delete(userName: string): Promise<void> {
+    try {
+      await this.chatUsersRepository.delete({ UserName: userName });
+    } catch (error) {
+      this.loggerPrint.error(`Error deleting chat user: ${error}`);
+      throw new BadRequestException(error);
     }
   }
 }

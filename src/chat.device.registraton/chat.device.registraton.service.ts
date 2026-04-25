@@ -39,8 +39,8 @@ export class ChatDeviceRegistratonService {
             const newDeviceRegistration = this.deviceRegistrationRepository.create(deviceData);
             return this.deviceRegistrationRepository.save(newDeviceRegistration);
         } catch (error) {
-            this.loggerPrint.error(error.message);
-            throw new NotFoundException(error.message);
+            this.loggerPrint.error(error);
+            throw new NotFoundException(error);
         }
     }
 
@@ -53,8 +53,8 @@ export class ChatDeviceRegistratonService {
                 },
             });
         } catch (error) {
-            this.loggerPrint.error(error.message);
-            throw new NotFoundException(error.message);
+            this.loggerPrint.error(error);
+            throw new NotFoundException(error);
         }
     }
 
@@ -97,8 +97,8 @@ export class ChatDeviceRegistratonService {
 
             return data
         } catch (error) {
-            this.loggerPrint.error(error.message);
-            throw new NotFoundException(error.message);
+            this.loggerPrint.error(error);
+            throw new NotFoundException(error);
         }
     }
 }   
