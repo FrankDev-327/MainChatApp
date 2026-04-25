@@ -33,7 +33,7 @@ export class CheckTokenGuard implements CanActivate {
 
       request.user = payload;
     } catch (error) {
-      this.loggerPrint.error(error.message);
+      this.loggerPrint.error(error);
       throw new UnauthorizedException("No Authorizated!");
     }
 

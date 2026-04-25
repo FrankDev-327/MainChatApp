@@ -1,7 +1,7 @@
 import { Controller, Post, Get, BadRequestException, Body, Param } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { ChatDeviceRegistratonService } from './chat.device.registraton.service';
-import { CheckRegisterDeviceDto } from 'src/dto/chat.device.registrations/check.device.driver.registration.dto';
+import { CheckRegisterDeviceDto } from '../dto/chat.device.registrations/check.device.driver.registration.dto';
 
 //@ApiTags('chat.device.registraton')
 @Controller('chat.device.registraton')

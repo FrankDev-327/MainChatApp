@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner, Table } from "typeorm";
 
-export class CreateCarsTable1777065193275 implements MigrationInterface {
-    private readonly tableName = 'cars';
+export class CreateChatDevicesRegistrationTable1777068645321 implements MigrationInterface {
+    private readonly tableName = 'chask_device_registrations';
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         try {
@@ -12,75 +12,54 @@ export class CreateCarsTable1777065193275 implements MigrationInterface {
                         name: this.tableName,
                         columns: [
                             {
-                                name: 'CarID',
+                                name: 'id',
                                 type: 'int',
                                 isPrimary: true,
                                 isGenerated: true,
-                                isNullable: false,
                                 generationStrategy: 'increment',
                             },
                             {
-                                name: 'CarGroupID',
+                                name: 'user_id',
                                 type: 'int',
-                                default: 0,
+                                isNullable: false,
                             },
                             {
-                                name: 'CarTypeID',
-                                type: 'int',
-                                default: 0,
-                            },
-                            {
-                                name: 'CarName',
+                                name: 'device_uuid',
                                 type: 'varchar',
-                                length: '255',
-                                isNullable: true,
+                                length: '64',
+                                isNullable: false,
                             },
                             {
-                                name: 'CarIconID',
-                                type: 'int',
-                                default: 0,
-                            },
-                            {
-                                name: 'CarColor',
-                                type: 'int',
-                                default: 0,
-                            },
-                            {
-                                name: 'CarDescription',
-                                type: 'varchar',
-                                length: '255',
-                                isNullable: true,
-                            },
-                            {
-                                name: 'CarStatus',
-                                type: 'int',
-                                default: 0,
-                            },
-                            {
-                                name: 'CarLastTime',
-                                type: 'timestamp',
-                                isNullable: true,
-                            },
-                            {
-                                name: 'CarDataPhone',
-                                type: 'varchar',
-                                length: '25',
-                                isNullable: true,
-                            },
-                            {
-                                name: 'CarVoicePhone',
-                                type: 'varchar',
-                                length: '25',
-                                isNullable: true,
-                            },
-                            {
-                                name: 'CarScheduled',
+                                name: 'device_type',
                                 type: 'enum',
-                                enum: ['Y', 'N'],
-                                default: "'N'",
+                                enum: ['android', 'ios', 'web'],
+                                isNullable: false,
+                            },
+                            {
+                                name: 'device_name',
+                                type: 'varchar',
+                                length: '255',
+                                isNullable: true,
+                            },
+                            {
+                                name: 'app_version',
+                                type: 'varchar',
+                                length: '20',
+                                isNullable: true,
+                            },
+                            {
+                                name: 'os_version',
+                                type: 'varchar',
+                                length: '50',
+                                isNullable: true,
+                            },
+                            {
+                                name: 'activated_at',
+                                type: 'timestamp',
                             },
                         ],
                     }),
+                    true,
                 );
             }
         } catch (error) {

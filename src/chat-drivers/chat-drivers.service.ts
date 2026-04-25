@@ -23,7 +23,7 @@ export class ChatDriversService {
       const newDriver = this.chatDriverRepository.create(driverData);
       return await this.chatDriverRepository.save(newDriver);
     } catch (error) {
-      this.loggerPrint.error(`Error creating chat driver: ${error.message}`);
+      this.loggerPrint.error(`Error creating chat driver: ${error}`);
       throw new BadGatewayException('Failed to create chat driver');
     }
   }
@@ -53,7 +53,7 @@ export class ChatDriversService {
       return driver;
     } catch (error) {
       this.loggerPrint.error(
-        `Error fetching chat driver details: ${error.message}`,
+        `Error fetching chat driver details: ${error}`,
       );
       if (error instanceof NotFoundException) {
         throw new NotFoundException(error.message);

@@ -4,6 +4,9 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { LoginUserDto } from '../dto/auth/login.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ChatUser } from '../entities/chat.users.entity';
+import { CreateChatUserDto } from '../dto/users/create.user.dto';
+import { UpdateChatUserDto } from '../dto/users/update.user.dto';
+import { totalUserCreatedGauge } from '../prometheus-chatapp/prometheus-chatapp.exporters';
 
 @Injectable()
 export class ChatUsersService {
@@ -11,33 +14,46 @@ export class ChatUsersService {
     @InjectRepository(ChatUser)
     private chatUsersRepository: Repository<ChatUser>,
     private loggerPrint: LoggerPrint,
-  ) {}
+  ) { }
+
+  async create(createChatUserDto: CreateChatUserDto): Promise<ChatUser> {
+    try {
+      const newUser = this.chatUsersRepository.create(createChatUserDto);
+      const savedUser = await this.chatUsersRepository.save(newUser);
+      totalUserCreatedGauge.inc({ user_created: 'yes' });
+      return savedUser;
+    } catch (error) {
+      this.loggerPrint.error(`Error creating chat user: ${error}`);
+      throw new BadRequestException(error);
+    }
+  }
+
+  async update(userId: number, updateChatUserDto: UpdateChatUserDto): Promise<ChatUser> {
+    try {
+      await this.chatUsersRepository.update(userId, updateChatUserDto);
+      return await this.chatUsersRepository.findOneBy({ UserID: userId });
+    } catch (error) {
+      this.loggerPrint.error(`Error updating chat user: ${error}`);
+      throw new BadRequestException(error);
+    }
+  }
 
   async findByUserName(dto: LoginUserDto): Promise<ChatUser | any | null> {
     try {
-      const passwordFunction =
-        process.env.PASSWORD_VERSION !== 'OLD_VERSION'
-          ? 'PASSWORD(?)'
-          : 'OLD_PASSWORD(?)';
-
-      const query = `
-    SELECT u.UserID, LOWER(u.UserName) AS UserName, u.UserGroupID, ugp.ObjectPriv,
-           ugp.ZonePriv, ugp.CarPriv, ugp.DrivePriv, u.UserPassword, u.IsAdmin
-    FROM chat_users u
-    INNER JOIN usergroups ugp ON ugp.UserGroupID = u.UserGroupID
-    WHERE u.UserName = ?
-      AND u.UserPassword = ${passwordFunction}
-  `;
-
-      const rawQuery = await this.chatUsersRepository.query(query, [
-        dto.userName,
-        dto.password,
-      ]);
-
-      return rawQuery?.length > 0 ? rawQuery[0] : null;
+      const user = await this.chatUsersRepository.findOneBy({ UserName: dto.userName });
+      return user;
     } catch (error) {
       this.loggerPrint.error(`Error fetching chat user by username: ${error}`);
-      throw new BadRequestException(error.message);
+      throw new BadRequestException(error);
+    }
+  }
+
+  async delete(userName: string): Promise<void> {
+    try {
+      await this.chatUsersRepository.delete({ UserName: userName });
+    } catch (error) {
+      this.loggerPrint.error(`Error deleting chat user: ${error}`);
+      throw new BadRequestException(error);
     }
   }
 }

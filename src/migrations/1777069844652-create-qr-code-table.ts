@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner, Table } from "typeorm";
 
-export class CreateCarsTable1777065193275 implements MigrationInterface {
-    private readonly tableName = 'cars';
+export class CreateQrCodeTable1777069844652 implements MigrationInterface {
+    private readonly tableName = 'chask_qr_codes';
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         try {
@@ -12,72 +12,57 @@ export class CreateCarsTable1777065193275 implements MigrationInterface {
                         name: this.tableName,
                         columns: [
                             {
-                                name: 'CarID',
+                                name: 'id',
                                 type: 'int',
                                 isPrimary: true,
                                 isGenerated: true,
-                                isNullable: false,
                                 generationStrategy: 'increment',
                             },
                             {
-                                name: 'CarGroupID',
+                                name: 'user_id',
                                 type: 'int',
-                                default: 0,
+                                isNullable: false,
                             },
                             {
-                                name: 'CarTypeID',
-                                type: 'int',
-                                default: 0,
+                                name: 'role',
+                                type: 'enum',
+                                enum: ['DRIVER', 'SUPERVISOR', 'MANAGER'],
+                                isNullable: false,
                             },
                             {
-                                name: 'CarName',
+                                name: 'pin',
                                 type: 'varchar',
-                                length: '255',
-                                isNullable: true,
+                                length: '10',
+                                isNullable: false,
                             },
                             {
-                                name: 'CarIconID',
-                                type: 'int',
-                                default: 0,
+                                name: 'created_at',
+                                type: 'timestamp',
                             },
                             {
-                                name: 'CarColor',
-                                type: 'int',
-                                default: 0,
+                                name: 'expires_at',
+                                type: 'timestamp',
                             },
                             {
-                                name: 'CarDescription',
-                                type: 'varchar',
-                                length: '255',
-                                isNullable: true,
-                            },
-                            {
-                                name: 'CarStatus',
-                                type: 'int',
-                                default: 0,
-                            },
-                            {
-                                name: 'CarLastTime',
+                                name: 'used_at',
                                 type: 'timestamp',
                                 isNullable: true,
                             },
                             {
-                                name: 'CarDataPhone',
+                                name: 'used_device_uuid',
                                 type: 'varchar',
-                                length: '25',
+                                length: '64',
                                 isNullable: true,
                             },
                             {
-                                name: 'CarVoicePhone',
-                                type: 'varchar',
-                                length: '25',
-                                isNullable: true,
+                                name: 'is_valid',
+                                type: 'boolean',
+                                default: true,
                             },
                             {
-                                name: 'CarScheduled',
-                                type: 'enum',
-                                enum: ['Y', 'N'],
-                                default: "'N'",
+                                name: 'failed_attempts',
+                                type: 'int',
+                                default: 0,
                             },
                         ],
                     }),
@@ -85,6 +70,7 @@ export class CreateCarsTable1777065193275 implements MigrationInterface {
             }
         } catch (error) {
             console.log(error.message);
+
         }
     }
 
@@ -96,7 +82,9 @@ export class CreateCarsTable1777065193275 implements MigrationInterface {
             }
         } catch (error) {
             console.log(error.message);
+
         }
+
     }
 
 }

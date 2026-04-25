@@ -1,9 +1,16 @@
 import { Redis } from 'ioredis';
+import * as bcrypt from 'bcrypt';
 
 export class Helper {
-    static async filterTypeMessages(msgType: string) {
-        
+    private static readonly SALT_ROUND = 10;
+  
+    static async hashPassword(password: string): Promise<string> {
+      return await bcrypt.hash(password, this.SALT_ROUND);
     }
+  
+    static async comparePassword(password: string, hash: string): Promise<boolean> {
+      return await bcrypt.compare(password, hash);
+    }   
 }
 
 export class RedisPreCommnads {

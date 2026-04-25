@@ -117,7 +117,6 @@ export class ChatUserEntity1776470600672 implements MigrationInterface {
                         {
                             name: 'UserRoleId',
                             type: 'int',
-
                             default: 0,
                         },
                     ],
@@ -136,7 +135,7 @@ export class ChatUserEntity1776470600672 implements MigrationInterface {
                 await queryRunner.dropTable(this.tableName);
             }
         } catch (error) {
-
+            console.log(error);
         }
 
     }

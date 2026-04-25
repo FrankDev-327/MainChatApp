@@ -20,8 +20,8 @@ export class ChatTasksService {
             const newTask = this.chatTasksRepository.create(dtobody);
             await this.chatTasksRepository.save(newTask);
         } catch (error) {
-            this.loggerPrint.error(error.message);
-            throw new BadRequestException(error.message);
+            this.loggerPrint.error(error);
+            throw new BadRequestException(error);
         }
     }
 }

@@ -75,7 +75,7 @@ export class ChatPrivateMessagesService {
         route: messageContent,
         status: 500,
       });
-      this.loggerPrint.error(`Error saving message: ${error.message}`);
+      this.loggerPrint.error(`Error saving message: ${error}`);
     }
   }
 
@@ -83,7 +83,7 @@ export class ChatPrivateMessagesService {
     try {
       await this.chatPrivateMessagesRepository.deleteAll();
     } catch (error) {
-      this.loggerPrint.error(`Error saving message: ${error.message}`);
+      this.loggerPrint.error(`Error saving message: ${error}`);
     }
   }
 }

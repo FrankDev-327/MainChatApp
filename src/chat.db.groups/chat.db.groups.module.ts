@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { ChatDbGroupsService } from './chat.db.groups.service';
-import { LoggerPrint } from 'src/logger/logger.print';
+import { LoggerPrint } from '../logger/logger.print';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ChatDbGroupEntity } from 'src/entities/chat.db.groups.entity';
-import { DbGroupEntity } from 'src/entities/db.groups.entity';
+import { ChatDbGroupEntity } from '../entities/chat.db.groups.entity';
+import { DbGroupEntity } from '../entities/db.groups.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([ChatDbGroupEntity, DbGroupEntity])],

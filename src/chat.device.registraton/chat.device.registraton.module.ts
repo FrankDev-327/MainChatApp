@@ -4,7 +4,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { ChatDriversModule } from '../chat-drivers/chat-drivers.module';
 import { ChatDeviceRegistratonController } from './chat.device.registraton.controller';
 import { ChatDeviceRegistratonService } from './chat.device.registraton.service';
-import { ChaskDeviceRegistrationEntity } from 'src/entities/chat.device.registration.entity';
+import { ChaskDeviceRegistrationEntity } from '../entities/chat.device.registration.entity';
 import { LoggerPrint } from '../logger/logger.print';
 
 @Module({
