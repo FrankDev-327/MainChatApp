@@ -42,10 +42,7 @@ export class ChatPrivateMessagesService {
       taskId: dto?.group_id ? 0 : dto.taskId,
       content: messageContent,
       messageType: dto.message_type,
-      isUrgent: dto.is_urgent,
-      isNotification: dto.is_notification,
       position: dto.position ? dto.position : '{}',
-      storedAt: new Date().toISOString(),
       fileUrl: dto?.file || '',
     });
 

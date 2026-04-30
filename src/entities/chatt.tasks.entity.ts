@@ -1,39 +1,31 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToOne } from 'typeorm';
+import { UserEntity } from './user.entity';
 
 @Entity('chatTasks')
 export class ChatTaskEntity {
   @PrimaryGeneratedColumn({ name: 'taskId' })
   taskId: number;
 
-  @Column({ name: 'parentTaskId', type: 'int'})
+  @Column({ name: 'title', type: 'varchar', length: 255, nullable: true })
+  title?: string;
+
+  @Column({ name: 'parentTaskId', type: 'int' })
   parentTaskId?: number;
 
-  @Column({ name: 'creatorId', type: 'int' })
-  creatorId: number;
+  @Column({ name: 'creatorId', type: 'int', nullable: true })
+  createdBy: number;
 
   @Column({ name: 'receiverId', type: 'int' })
   receiverId: number;
 
-  @Column({ name: 'vehicleId', type: 'int', nullable: true })
-  vehicleId?: number;
-
-  @Column({ name: 'shipmentId', type: 'varchar', length: 64, nullable: true })
-  shipmentId?: string;
+  @Column({ name: 'carId', type: 'int', nullable: true })
+  carId?: number;
 
   @Column({ name: 'require_photo', type: 'int', default: false })
   requirePhoto: number;
 
-  @Column({ name: 'require_signature', type: 'int', default: false })
-  requireSignature: number;
-
   @Column({ name: 'require_location', type: 'int', default: false })
   requireLocation: number;
-
-  @Column({ name: 'require_barcode', type: 'int', default: false })
-  requireBarcode: number;
-
-  @Column({ name: 'require_start', type: 'int', default: false })
-  requireStart: number;
 
   @Column({ name: 'is_root', type: 'int', default: 0 })
   isRoot: number;
@@ -77,27 +69,18 @@ export class ChatTaskEntity {
   @Column({ name: 'deadlineEnd', type: 'timestamp', nullable: true })
   deadlineEnd?: Date | null;
 
-  @Column({ name: 'location', type: 'text', nullable: true })
-  location?: string;
+  @Column({ name: 'location', type: 'json', nullable: true })
+  location?: Object | null;
 
   @Column({ name: 'requiredConfirmations', type: 'text', nullable: true })
   requiredConfirmations?: string;
 
-  @Column({
+  @CreateDateColumn({
     name: 'createdAt',
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP',
   })
   createdAt: Date;
-
-  @Column({ name: 'storedAt', type: 'timestamp', nullable: true })
-  storedAt?: Date;
-
-  @Column({ name: 'receivedAt', type: 'timestamp', nullable: true })
-  receivedAt?: Date;
-
-  @Column({ name: 'readAt', type: 'timestamp', nullable: true })
-  readAt?: Date;
 
   @Column({ name: 'rejectedAt', type: 'timestamp', nullable: true })
   rejectedAt?: Date;
@@ -113,6 +96,6 @@ export class ChatTaskEntity {
   @Column({ name: 'archivedAt', type: 'timestamp', nullable: true })
   archivedAt?: Date;
 
-  @Column({ name: 'title', type: 'varchar', length: 255, nullable: true })
-  title?: string;
+  @ManyToOne(() => UserEntity, (user) => user.tasks, { onDelete: 'SET NULL' })
+  user: UserEntity;
 }

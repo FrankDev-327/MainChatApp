@@ -5,14 +5,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthenticationService } from './authentication.service';
 import { AuthenticationController } from './authentication.controller';
 import { ChatUsersModule } from '../chat_users/chat_users.module';
-import { ChatUser } from '../entities/chat.users.entity';
+import { UserEntity } from '../entities/user.entity';
 import { LoggerPrint } from '../logger/logger.print';
 
 @Module({
   imports: [
     TokenModule,
     ChatUsersModule,
-    TypeOrmModule.forFeature([ChatUser]),
+    TypeOrmModule.forFeature([UserEntity]),
     JwtModule.register({
       global: true,
       secret: process.env.KEY_SECRET,

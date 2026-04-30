@@ -16,7 +16,7 @@ export class EmiterSubscribersService {
     try {
       this.eventEmitter.emit(channel, dataToBeEmitted);
     } catch (error) {
-      this.loggerPrint.error(error.message);
+      this.loggerPrint.error(error, 'EmiterSubscribersService', 'emittingEventToBeSubscribed');
     }
   }
 }

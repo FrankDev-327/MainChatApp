@@ -4,7 +4,7 @@ import { JwtService } from '@nestjs/jwt';
 import { TokenService } from '../../../token/token.service';
 import { generateChatUser } from '../generators/chat.user.generator';
 import { ChatUsersService } from '../../chat_users.service';
-import { ChatUser } from '../../../entities/chat.users.entity';
+import { UserEntity } from '../../../entities/user.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { BadRequestException } from '@nestjs/common';
 import { ApiTokenEntity } from '../../../entities/token.entity';
@@ -15,8 +15,8 @@ describe('ChatUsersService', () => {
   let chatUsersService: ChatUsersService;
   let chatUserInfo = generateChatUser();
 
-  let chatUserRepository: Repository<ChatUser>;
-  const CHAT_USER_REPO = getRepositoryToken(ChatUser)
+  let chatUserRepository: Repository<UserEntity>;
+  const CHAT_USER_REPO = getRepositoryToken(UserEntity)
 
   beforeEach(async () => {
     repoMock = {
@@ -54,7 +54,7 @@ describe('ChatUsersService', () => {
     }).compile();
 
     chatUsersService = module.get<ChatUsersService>(ChatUsersService);
-    chatUserRepository = module.get<Repository<ChatUser>>(CHAT_USER_REPO);
+    chatUserRepository = module.get<Repository<UserEntity>>(CHAT_USER_REPO);
   });
 
   describe('findByUserName', () => {
