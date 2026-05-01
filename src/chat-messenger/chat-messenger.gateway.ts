@@ -120,12 +120,6 @@ export class ChatMessengerGateway
 
       this.socketUserClients.set(payload.userId, client);
       this.loggerPrint.log(`Client connected: ${client.id}`);
-      //if (payload.isAdmin === 'N') {
-      client.join(`group-room-${payload.userGroupId}`);
-      this.loggerPrint.log(
-        `Client ${client.id} joined room: ${payload.userGroupId}`,
-      );
-      //}
 
       const onlineUser = "users-online";
       const userInfo = `user-info-${payload.userId}`;

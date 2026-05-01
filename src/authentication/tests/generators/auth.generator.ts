@@ -13,7 +13,7 @@ export function generateAuthData(override = {}) {
 
 export function useIntegrationAndE2EUserLogin(): LoginUserDto {
     const userCredential: LoginUserDto = {
-        "userName": "artadmin",
+        "email": "artadmin",
         "password": "juricaperica",
         "checkTypeAuth": ""
     }
