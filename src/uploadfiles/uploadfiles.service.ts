@@ -55,8 +55,6 @@ export class UploadfilesService {
         taskId: !dto?.group_id ? 0 : dto.taskId,
         message_type: dto.message_type,
         message: '',
-        is_urgent: dto.is_urgent,
-        is_notification: dto.is_notification,
         lat: dto.lat,
         lon: dto.lon,
         lonCoodinate: '',

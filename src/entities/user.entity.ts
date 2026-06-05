@@ -20,6 +20,9 @@ export class UserEntity {
   @Column({ unique: true })
   email: string;
 
+  @Column({length: 255})
+  username: string;
+
   @Column({ name: 'first_name' })
   firstName: string;
 

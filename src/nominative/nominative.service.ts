@@ -10,35 +10,29 @@ export class NominativeService {
   constructor(
     private loggerPrint: LoggerPrint,
     private readonly chatPrivateMessagesService: ChatPrivateMessagesService,
-  ) {}
+  ) { }
 
   async getNominativeData(
     receiveLocationDto: ReceiveLocationDto,
   ): Promise<void> {
     try {
-      const location = await axios.get(
-        `${process.env.NOMINATIM_URL}/reverse?format=json&lat=${receiveLocationDto.lat}&lon=${receiveLocationDto.lon}`,
-      );
+      const url = `${process.env.NOMINATIM_URL}/reverse?format=json&lat=${receiveLocationDto.lat}&lon=${receiveLocationDto.lon}`
+      const location = await axios.get(url);
       const messageDto: CreateMessageTaskDto = {
-        sender_id: receiveLocationDto.sender_id,
-        receiver_id: receiveLocationDto.receiver_id,
-        group_id: receiveLocationDto.group_id,
-        taskId: receiveLocationDto.taskId,
-        message_type: receiveLocationDto.message_type,
         message: '',
-        is_urgent: 0,
-        is_notification: 0,
         lat: receiveLocationDto.lat,
         lon: receiveLocationDto.lon,
-        lonCoodinate: '',
-        latCoodinate: '',
-        file: '',
+        taskId: receiveLocationDto.taskId,
+        group_id: receiveLocationDto.group_id,
+        sender_id: receiveLocationDto.sender_id,
+        receiver_id: receiveLocationDto.receiver_id,
+        message_type: receiveLocationDto.message_type,
         position: location?.data ? JSON.stringify(await location.data) : '',
       };
 
       await this.chatPrivateMessagesService.createNewPrivateMessage(messageDto);
     } catch (error) {
-      this.loggerPrint.error(error.message);
+      this.loggerPrint.error(error, 'NominativeService', 'getNominativeData');
     }
   }
 }

@@ -18,6 +18,8 @@ import { TaskModule } from './task/task.module';
 import { UploadfilesModule } from './uploadfiles/uploadfiles.module';
 import { PrometheusChatappModule } from './prometheus-chatapp/prometheus-chatapp.module';
 import { EmiterSubscribersModule } from './emiter-subscribers/emiter-subscribers.module';
+import { UsersModule } from './users/users.module';
+import { ElascitServiceModule } from './elascit-service/elascit-service.module';
 
 @Module({
   imports: [
@@ -35,9 +37,11 @@ import { EmiterSubscribersModule } from './emiter-subscribers/emiter-subscribers
     LoggerModule,
     TaskModule,
     //RabbitTaskModule,
-    UploadfilesModule,
+    //UploadfilesModule,
     PrometheusChatappModule,
     EmiterSubscribersModule,
+    UsersModule,
+    ElascitServiceModule,
   ],
   controllers: [HealthController],
 })

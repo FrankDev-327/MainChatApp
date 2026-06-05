@@ -18,81 +18,65 @@ export class CreateChatTaskTable1777069964848 implements MigrationInterface {
                                 isGenerated: true,
                                 generationStrategy: 'increment',
                             },
-
                             {
                                 name: 'title',
                                 type: 'varchar',
                                 length: '255',
                                 isNullable: true,
                             },
-
                             {
                                 name: 'parentTaskId',
                                 type: 'int',
                                 isNullable: true,
                             },
-
                             {
                                 name: 'creatorId',
                                 type: 'int',
                                 isNullable: true,
                             },
-
                             {
                                 name: 'receiverId',
                                 type: 'int',
                                 isNullable: false,
                             },
-
                             {
                                 name: 'carId',
                                 type: 'int',
                                 isNullable: true,
                             },
-
-                            // booleans stored as int (as in your entity)
                             {
                                 name: 'require_photo',
-                                type: 'int',
-                                default: 0,
+                                type: 'boolean',
+                                default: false,
                             },
-
                             {
                                 name: 'require_location',
-                                type: 'int',
-                                default: 0,
+                                type: 'boolean',
+                                default: false,
                             },
-
                             {
                                 name: 'is_root',
-                                type: 'int',
-                                default: 0,
+                                type: 'boolean',
+                                default: false,
                             },
-
                             {
                                 name: 'location_lat',
                                 type: 'varchar',
                                 length: '255',
                                 isNullable: true,
                             },
-
                             {
                                 name: 'location_lng',
                                 type: 'varchar',
                                 length: '255',
                                 isNullable: true,
                             },
-
                             {
                                 name: 'description',
                                 type: 'varchar',
                                 length: '100',
                                 isNullable: false,
                             },
-
-                            // =========================
-                            // ENUMS
-                            // =========================
                             {
                                 name: 'taskType',
                                 type: 'enum',
@@ -100,7 +84,6 @@ export class CreateChatTaskTable1777069964848 implements MigrationInterface {
                                 enumName: 'chat_tasks_task_type_enum',
                                 default: `'simple'`,
                             },
-
                             {
                                 name: 'status',
                                 type: 'enum',
@@ -108,7 +91,6 @@ export class CreateChatTaskTable1777069964848 implements MigrationInterface {
                                 enumName: 'chat_tasks_status_enum',
                                 default: `'assigned'`,
                             },
-
                             {
                                 name: 'deadlineType',
                                 type: 'enum',
@@ -116,50 +98,42 @@ export class CreateChatTaskTable1777069964848 implements MigrationInterface {
                                 enumName: 'chat_tasks_deadline_type_enum',
                                 isNullable: true,
                             },
-
                             {
                                 name: 'deadlineStart',
                                 type: 'timestamp',
                                 isNullable: true,
                             },
-
                             {
                                 name: 'deadlineEnd',
                                 type: 'timestamp',
                                 isNullable: true,
                             },
-
                             {
                                 name: 'location',
-                                type: 'json',
+                                type: 'jsonb',
                                 isNullable: true,
                             },
-
                             {
                                 name: 'requiredConfirmations',
                                 type: 'text',
                                 isNullable: true,
                             },
-
                             {
                                 name: 'createdAt',
                                 type: 'timestamp',
                                 default: 'CURRENT_TIMESTAMP',
                             },
-
                             {
                                 name: 'rejectedAt',
                                 type: 'timestamp',
                                 isNullable: true,
                             },
-
                             {
                                 name: 'rejectedReason',
                                 type: 'varchar',
                                 length: '255',
                                 isNullable: true,
                             },
-
                             {
                                 name: 'archivedAt',
                                 type: 'timestamp',
@@ -170,9 +144,6 @@ export class CreateChatTaskTable1777069964848 implements MigrationInterface {
                     true,
                 );
 
-                // =========================
-                // INDEXES
-                // =========================
                 await queryRunner.createIndex(
                     this.tableName,
                     new TableIndex({
@@ -212,19 +183,6 @@ export class CreateChatTaskTable1777069964848 implements MigrationInterface {
                         columnNames: ['createdAt'],
                     }),
                 );
-
-                // =========================
-                // FOREIGN KEY (UserEntity)
-                // =========================
-                await queryRunner.createForeignKey(
-                    this.tableName,
-                    new TableForeignKey({
-                        columnNames: ['creatorId'],
-                        referencedTableName: 'users',
-                        referencedColumnNames: ['id'],
-                        onDelete: 'SET NULL',
-                    }),
-                );
             }
         } catch (error) {
             console.error(error);
@@ -234,7 +192,6 @@ export class CreateChatTaskTable1777069964848 implements MigrationInterface {
     public async down(queryRunner: QueryRunner): Promise<void> {
         const table = await queryRunner.getTable(this.tableName);
 
-        // drop FK first
         const fk = table?.foreignKeys.find(fk => fk.columnNames.includes('creatorId'));
         if (fk) {
             await queryRunner.dropForeignKey(this.tableName, fk);
@@ -242,10 +199,8 @@ export class CreateChatTaskTable1777069964848 implements MigrationInterface {
 
         await queryRunner.dropTable(this.tableName);
 
-        // drop enums (Postgres requires manual cleanup)
         await queryRunner.query(`DROP TYPE IF EXISTS "chat_tasks_task_type_enum"`);
         await queryRunner.query(`DROP TYPE IF EXISTS "chat_tasks_status_enum"`);
         await queryRunner.query(`DROP TYPE IF EXISTS "chat_tasks_deadline_type_enum"`);
     }
-
 }

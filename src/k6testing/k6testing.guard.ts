@@ -23,7 +23,8 @@ export class K6testingGuard implements CanActivate {
       }
 
     } catch (error) {
-      this.loggerPrint.error("No Authorizated!", error.message);
+      if(error instanceof Error) this.loggerPrint.error("No Authorizated!", error.message);
+      this.loggerPrint.error("No Authorizated!", (error as Error).message);
       throw new UnauthorizedException("No Authorizated!");
     }
 

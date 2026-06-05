@@ -27,12 +27,9 @@ export enum MessageType {
 
 
 export class CreateMessageTaskDto {
-    /*     @IsBoolean()
-        generateTask: boolean; */
-
     @IsOptional()
     @IsString()
-    message: string;
+    message?: string;
 
     /*     @IsString()
         action: string; */
@@ -40,9 +37,6 @@ export class CreateMessageTaskDto {
     @IsString()
     @IsOptional()
     file?: string;
-
-    /* @IsNumber()
-    room: number; */
 
     @IsNumber()
     group_id: number;
@@ -74,24 +68,14 @@ export class CreateMessageTaskDto {
     /*    @IsEnum(TaskStatus)
        status: TaskStatus; */
 
-    @IsOptional()
-    @IsString()
-    shipmentId?: string;
-
     /*    @IsString()
        description: string; */
 
     /*  @IsEnum(['simple', 'multitask'])
      taskType: 'simple' | 'multitask'; */
 
-    @IsNumber()
-    is_urgent: number;
-
     @IsEnum(MessageType)
     message_type: MessageType;
-
-    @IsNumber()
-    is_notification: number;
 
     /*     @IsOptional()
         @IsDateString()
@@ -111,11 +95,11 @@ export class CreateMessageTaskDto {
 
     @IsOptional()
     @IsString()
-    lonCoodinate: string;
+    lonCoodinate?: string;
 
     @IsOptional()
     @IsString()
-    latCoodinate: string;
+    latCoodinate?: string;
 
     @IsOptional()
     @IsString()

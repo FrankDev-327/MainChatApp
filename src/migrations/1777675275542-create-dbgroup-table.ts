@@ -2,6 +2,7 @@ import { MigrationInterface, QueryRunner, Table, TableForeignKey } from "typeorm
 
 export class CreateDbgroupTable1777675275542 implements MigrationInterface {
     private readonly tableName = "dbgroups";
+
     public async up(queryRunner: QueryRunner): Promise<void> {
         try {
             const tableExists = await queryRunner.hasTable(this.tableName);
@@ -26,7 +27,6 @@ export class CreateDbgroupTable1777675275542 implements MigrationInterface {
                             {
                                 name: "parent_id",
                                 type: "int",
-                                unsigned: true,
                                 default: 0,
                             },
                             {
@@ -38,45 +38,30 @@ export class CreateDbgroupTable1777675275542 implements MigrationInterface {
                                 name: "userId",
                                 type: "int",
                                 isNullable: true,
-                                isUnique: true, // important for OneToOne
+                                isUnique: true,
                             },
                         ],
-                    })
-                );
-
-                await queryRunner.createForeignKey(
-                    this.tableName,
-                    new TableForeignKey({
-                        columnNames: ["userId"],
-                        referencedTableName: "users",
-                        referencedColumnNames: ["id"],
-                        onDelete: "SET NULL",
-                        onUpdate: "CASCADE",
-                    })
+                    }),
+                    true,
                 );
             }
         } catch (error) {
-            console.log(error);
+            console.error(error);
         }
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
         try {
             const table = await queryRunner.getTable(this.tableName);
-
             const foreignKey = table?.foreignKeys.find(
                 fk => fk.columnNames.includes("userId")
             );
-
             if (foreignKey) {
                 await queryRunner.dropForeignKey(this.tableName, foreignKey);
             }
-
             await queryRunner.dropTable(this.tableName);
         } catch (error) {
-            console.log(error);
-
+            console.error(error);
         }
     }
-
 }

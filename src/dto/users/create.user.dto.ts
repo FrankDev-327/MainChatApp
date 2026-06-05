@@ -4,7 +4,6 @@ import {
   IsString,
   MaxLength,
   MinLength,
-  IsDateString,
 } from 'class-validator';
 
 export class UserDto {
@@ -18,11 +17,12 @@ export class UserDto {
 
   @IsString()
   @MaxLength(255)
-  lastName: string;
+  username: string;
 
-  @IsOptional()
-  @IsDateString()
-  createdAt?: Date;
+
+  @IsString()
+  @MaxLength(255)
+  lastName: string;
 
   @IsOptional()
   @IsString()

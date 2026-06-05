@@ -14,6 +14,6 @@ import { NominativeController } from './nominative.controller';
     },
   ],
   exports: [NominativeService],
-  //controllers: [NominativeController],
+  controllers: [NominativeController],
 })
 export class NominativeModule {}

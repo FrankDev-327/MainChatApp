@@ -10,8 +10,6 @@ export function generateFakeUploadFileMessage(override = {}) {
         taskId: faker.number.int({ min: 1, max: 10 }),
         message: faker.string.alpha(10),
         message_type: MessageType.COORDINATES,
-        is_urgent: faker.number.int({ min: 0, max: 1 }),
-        is_notification: faker.number.int({ min: 0, max: 1 }),
         position: "",
         file: "",
         lon: '',

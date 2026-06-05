@@ -424,9 +424,9 @@ export function chat_api_test(data) {
 }
 
 export function chat_socket_direct_message_test(data) {
-  console.log(`VU ${__VU} starting chat_socket_direct_message_test...`);
   let userToken;
-
+  console.log(`VU ${__VU} starting chat_socket_direct_message_test...`);
+  
   //TODO --- 1. HTTP Setup/Login ---
   group('admin user login section socket - 1', function () {
     let params = {
@@ -505,7 +505,7 @@ export function chat_socket_direct_message_test(data) {
   });
 }
 
-export function chat_socket_group_message_test(data) {
+export function chat_socket_group_message_test(data) {k
   console.log(`VU ${__VU} starting chat_socket_group_message_test...`);
   let userToken;
 

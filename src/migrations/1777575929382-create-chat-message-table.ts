@@ -39,7 +39,7 @@ export class CreateChatMessageTable1777575929382 implements MigrationInterface {
                                 isNullable: true,
                             },
                             {
-                                name: 'parentTaskId', // ⚠️ matches your entity exactly
+                                name: 'parentTaskId',
                                 type: 'int',
                                 isNullable: true,
                             },
@@ -67,7 +67,7 @@ export class CreateChatMessageTable1777575929382 implements MigrationInterface {
                             },
                             {
                                 name: 'position',
-                                type: 'text',
+                                type: 'jsonb',
                                 isNullable: true,
                             },
                         ],
@@ -75,7 +75,6 @@ export class CreateChatMessageTable1777575929382 implements MigrationInterface {
                     true,
                 );
 
-                // Indexes
                 await queryRunner.createIndex(
                     this.tableName,
                     new TableIndex({
@@ -109,8 +108,7 @@ export class CreateChatMessageTable1777575929382 implements MigrationInterface {
                 );
             }
         } catch (error) {
-            console.log(error);
-
+            console.error(error);
         }
     }
 
@@ -120,10 +118,10 @@ export class CreateChatMessageTable1777575929382 implements MigrationInterface {
             await queryRunner.dropIndex(this.tableName, 'IDX_chat_messages_receiver_id');
             await queryRunner.dropIndex(this.tableName, 'IDX_chat_messages_group_id');
             await queryRunner.dropIndex(this.tableName, 'IDX_chat_messages_created_at');
-            await queryRunner.query(`DROP TABLE IF EXISTS ${this.tableName}`);
+            await queryRunner.dropTable(this.tableName);
+            await queryRunner.query(`DROP TYPE IF EXISTS "chat_messages_message_type_enum"`);
         } catch (error) {
-            console.log(error);
+            console.error(error);
         }
     }
-
 }

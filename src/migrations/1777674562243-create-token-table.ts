@@ -2,6 +2,7 @@ import { MigrationInterface, QueryRunner, Table } from "typeorm";
 
 export class CreateTokenTable1777674562243 implements MigrationInterface {
     private readonly tableName = "api_tokens";
+
     public async up(queryRunner: QueryRunner): Promise<void> {
         try {
             const tableExists = await queryRunner.hasTable(this.tableName);
@@ -34,11 +35,12 @@ export class CreateTokenTable1777674562243 implements MigrationInterface {
                                 isNullable: false,
                             },
                         ],
-                    })
+                    }),
+                    true,
                 );
             }
         } catch (error) {
-            console.log(error);
+            console.error(error);
         }
     }
 
@@ -46,9 +48,7 @@ export class CreateTokenTable1777674562243 implements MigrationInterface {
         try {
             await queryRunner.dropTable(this.tableName);
         } catch (error) {
-            console.log(error);
-
+            console.error(error);
         }
     }
-
 }
