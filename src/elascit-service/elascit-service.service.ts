@@ -10,9 +10,11 @@ export class ElascitServiceService {
 
     async indexUser(index: string, body) {
         try {
+            await this.ensureIndex(index);
             await this.elasticsearchService.index({
                 index: index,
-                body: JSON.parse(JSON.stringify(body)),
+                id: body.id.toString(),
+                body: body
             });
         } catch (error) {
             this.logger.error(`Error indexing user: ${(error as Error).message}`);
