@@ -3,7 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { TaskService } from './task.service';
 import { TaskController } from './task.controller';
 import { RabbitTaskModule } from '../rabbit.task/rabbit.task.module';
-import { ChatTaskEntity } from '../entities/chat.task.entity';
+import { ChatTaskEntity } from '../entities/chatt.tasks.entity';
 import { LoggerPrint } from '../logger/logger.print';
 
 @Module({

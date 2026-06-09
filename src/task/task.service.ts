@@ -9,7 +9,7 @@ import {
   databaseResponseTimeHistogram,
 } from '../prometheus-chatapp/prometheus-chatapp.exporters';
 import { ChatTaskListingByDriverDto } from '../dto/chat.tasks/chat.task.listing.driver.dto';
-import { FilterByDate } from '../entities/chat.task.entity';
+import { FilterByDate } from '../entities/chatt.tasks.entity';
 
 @Injectable()
 export class TaskService {

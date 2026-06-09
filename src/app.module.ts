@@ -20,6 +20,11 @@ import { PrometheusChatappModule } from './prometheus-chatapp/prometheus-chatapp
 import { EmiterSubscribersModule } from './emiter-subscribers/emiter-subscribers.module';
 import { UsersModule } from './users/users.module';
 import { ElascitServiceModule } from './elascit-service/elascit-service.module';
+import { GraphQLModule } from '@nestjs/graphql';
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { join } from 'path';
+import { UsersresolverResolver } from './usersresolver/usersresolver.resolver';
+import { UsersresolverModule } from './usersresolver/usersresolver.module';
 
 @Module({
   imports: [
@@ -42,7 +47,15 @@ import { ElascitServiceModule } from './elascit-service/elascit-service.module';
     EmiterSubscribersModule,
     UsersModule,
     ElascitServiceModule,
+    GraphQLModule.forRoot<ApolloDriverConfig>({
+      driver: ApolloDriver,
+      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+      sortSchema: true,
+      playground: true,
+    }),
+    UsersresolverModule,
   ],
   controllers: [HealthController],
+  providers: [UsersresolverResolver],
 })
 export class AppModule {}

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { Repository, Like } from 'typeorm';
 import { UserEntity } from '../entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserDto } from '../dto/users/create.user.dto';
@@ -23,6 +23,18 @@ export class UsersService {
       return userSaved;
     } catch (error) {
       this.logger.error(`Error creating user: ${(error as Error).message}`);
+      throw error;
+    }
+  }
+
+  async findUserByUserName(username: string): Promise<UserEntity | null> {
+    try {
+      return this.userRepository.findOne({ 
+        where: { username: Like(`%${username}%`) },
+        relations: ['chatTasks']
+      });
+    } catch (error) {
+      this.logger.error(`Error finding user by username: ${(error as Error).message}`);
       throw error;
     }
   }
