@@ -10,13 +10,13 @@ export class UsersresolverResolver {
     private readonly chatTasksService: ChatTasksService
   ) { }
 
-  @Query(() => UserEntity, { name: 'userName', nullable: false })
+  @Query(() => UserEntity, { name: 'getUserInfo', nullable: false })
   async findOne(@Args('userName', { type: () => String }) userName: string): Promise<UserEntity | null> {
     return this.usersService.findUserByUserName(userName);
   }
 
-  @Query(() => [ChatTaskEntity])
-  async tasks(@Args('userId', { type: () => Number }) userId: number): Promise<ChatTaskEntity[]> {
-    return await this.chatTasksService.findByUserId(userId);
+  @ResolveField(() => [ChatTaskEntity])
+  async tasks(@Parent() user: UserEntity): Promise<ChatTaskEntity[]> {
+    return await this.chatTasksService.findByUserId(user.id);
   }
 }

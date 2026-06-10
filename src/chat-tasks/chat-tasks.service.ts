@@ -27,7 +27,7 @@ export class ChatTasksService {
 
     async findByUserId(userId: number): Promise<ChatTaskEntity[]> {
         try {
-            return await this.chatTasksRepository.find({ where: { user: { id: userId } } });
+            return await this.chatTasksRepository.find({ where: { user: { id: Number(userId) } } });
         } catch (error) {
             this.loggerPrint.error((error as Error).message);
             throw new BadRequestException((error as Error).message);

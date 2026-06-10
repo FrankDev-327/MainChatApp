@@ -31,7 +31,7 @@ export class UsersService {
     try {
       return this.userRepository.findOne({ 
         where: { username: Like(`%${username}%`) },
-        relations: ['chatTasks']
+        //relations: ['tasks']
       });
     } catch (error) {
       this.logger.error(`Error finding user by username: ${(error as Error).message}`);

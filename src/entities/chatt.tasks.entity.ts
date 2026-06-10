@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
 import { UserEntity } from './user.entity';
 import { Field, ID, ObjectType } from '@nestjs/graphql';
 
@@ -45,13 +45,8 @@ export class ChatTaskEntity {
   @Column({ name: 'parentTaskId', type: 'int' })
   parentTaskId?: number;
 
-  @Field(() => Number)
   @Column({ name: 'creatorId', type: 'int', nullable: true })
   createdBy: number;
-
-  @Field(() => Number) @Column({ name: 'assigneeId', type: 'int', nullable: true })
-  @Column({ name: 'assigneeId', type: 'int' })
-  assigneeId?: number;
 
   @Field(() => Number) @Column({ name: 'assignerId', type: 'int', nullable: true })
   @Column({ name: 'receiverId', type: 'int' })
@@ -154,5 +149,6 @@ export class ChatTaskEntity {
   archivedAt?: Date;
 
   @ManyToOne(() => UserEntity, (user) => user.tasks, { onDelete: 'SET NULL' })
+  @JoinColumn({ name: 'creatorId' })
   user: UserEntity;
 }
