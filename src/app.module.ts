@@ -16,13 +16,15 @@ import { HealthController } from './health/health.controller';
 import { TaskModule } from './task/task.module';
 //import { RabbitTaskModule } from './rabbit.task/rabbit.task.module';
 import { UploadfilesModule } from './uploadfiles/uploadfiles.module';
-import { ChatDriversModule } from './chat-drivers/chat-drivers.module';
-import { ChatUserRightsModule } from './chat-user-rights/chat-user-rights.module';
-import { ChatDeviceRegistratonModule } from './chat.device.registraton/chat.device.registraton.module';
-import { ChatQrCodeModule } from './chat.qr.code/chat.qr.code.module';
 import { PrometheusChatappModule } from './prometheus-chatapp/prometheus-chatapp.module';
 import { EmiterSubscribersModule } from './emiter-subscribers/emiter-subscribers.module';
-import { ChatDeviceModule } from './chat.device/chat.device.module';
+import { UsersModule } from './users/users.module';
+import { ElascitServiceModule } from './elascit-service/elascit-service.module';
+import { GraphQLModule } from '@nestjs/graphql';
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { join } from 'path';
+import { UsersresolverResolver } from './usersresolver/usersresolver.resolver';
+import { UsersresolverModule } from './usersresolver/usersresolver.module';
 
 @Module({
   imports: [
@@ -40,15 +42,20 @@ import { ChatDeviceModule } from './chat.device/chat.device.module';
     LoggerModule,
     TaskModule,
     //RabbitTaskModule,
-    UploadfilesModule,
-    ChatDriversModule,
-    ChatUserRightsModule,
-    ChatDeviceRegistratonModule,
-    ChatQrCodeModule,
+    //UploadfilesModule,
     PrometheusChatappModule,
     EmiterSubscribersModule,
-    ChatDeviceModule,
+    UsersModule,
+    ElascitServiceModule,
+    GraphQLModule.forRoot<ApolloDriverConfig>({
+      driver: ApolloDriver,
+      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+      sortSchema: true,
+      playground: true,
+    }),
+    UsersresolverModule,
   ],
   controllers: [HealthController],
+  providers: [UsersresolverResolver],
 })
 export class AppModule {}

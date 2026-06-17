@@ -10,7 +10,7 @@ import {
 import { ResponseAuthLogin } from '../dto/auth/response.logi.dto';
 
 @ApiTags('Auth')
-@Controller('authentication')
+@Controller('auth')
 export class AuthenticationController {
     constructor(private authenticationService: AuthenticationService) { }
 

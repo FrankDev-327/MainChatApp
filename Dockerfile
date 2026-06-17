@@ -1,36 +1,23 @@
 FROM node:alpine as development
-
 WORKDIR /usr/src/app
-
 COPY package.json ./
-COPY tsconfig.json ./ 
+COPY pnpm-lock.yaml ./
+COPY tsconfig.json ./
+COPY tsconfig.build.json ./
 COPY orm.ts ./
-
-RUN npm install
-
+RUN npm install -g pnpm@8.6.7 && pnpm install 
 COPY . ./
-
-RUN npm run build
+RUN pnpm run build
 
 FROM node:alpine as prod
-
 ARG NODE_ENV=prod
 ENV NODE_ENV=${NODE_ENV}
-
 WORKDIR /usr/src/app
-
-COPY package.json ./
-
-RUN npm install --only=prod
-
-# Copy tsconfig.json from the development stage
+RUN npm install -g pnpm@8.6.7
+COPY --from=development /usr/src/app/node_modules ./node_modules
 COPY --from=development /usr/src/app/tsconfig.json ./tsconfig.json
 COPY --from=development /usr/src/app/orm.ts ./orm.ts
-
-# Copy only the necessary files for production
 COPY --from=development /usr/src/app/dist ./dist
-COPY --from=development /usr/src/app/node_modules ./node_modules
-
+COPY package.json ./
 EXPOSE 3001
-
-CMD node dist/src/main
+CMD pnpm run migration:run && node dist/src/main

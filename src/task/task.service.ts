@@ -9,7 +9,7 @@ import {
   databaseResponseTimeHistogram,
 } from '../prometheus-chatapp/prometheus-chatapp.exporters';
 import { ChatTaskListingByDriverDto } from '../dto/chat.tasks/chat.task.listing.driver.dto';
-import { FilterByDate } from '../entities/chat.task.entity';
+import { FilterByDate } from '../entities/chatt.tasks.entity';
 
 @Injectable()
 export class TaskService {
@@ -26,15 +26,11 @@ export class TaskService {
         title: dto.taskTitle,
         isRoot: dto?.isRoot,
         parentTaskId: dto.isRoot ? dto.parentTaskId : 0,
-        creatorId: dto.sender_id,
+        createdBy: dto.sender_id,
         receiverId: dto.receiver_id,
-        vehicleId: dto.vehicleId ?? 0,
-        shipmentId: dto.shipmentId ?? '',
         description: dto.description,
         taskType: dto.taskType,
-        requireBarcode: dto?.requireBarcode,
         requireLocation: dto?.requireLocation,
-        requireSignature: dto?.requireSignature,
         status: dto.status ?? 'assigned',
         deadlineStart: dto.deadlineStart ?? null,
         deadlineEnd: dto.deadlineEnd ?? null,
@@ -48,13 +44,13 @@ export class TaskService {
       timer({ method: 'POST', route: 'task/create', status: '200' });
       return taskCreated;
     } catch (error) {
-      this.loggerPrint.error(error.message);
+      this.loggerPrint.error(error);
       totalRequestConter.inc({
         method: ' POST',
         route: 'task/create',
         status: 500,
       });
-      throw new BadRequestException(error.message);
+      throw new BadRequestException(error);
     }
   }
 
@@ -89,8 +85,8 @@ export class TaskService {
         route: 'task/:taskId',
         status: 500,
       });
-      this.loggerPrint.error(error.message);
-      throw new BadRequestException(error.message);
+      this.loggerPrint.error(error);
+      throw new BadRequestException(error);
     }
   }
 
@@ -154,8 +150,8 @@ export class TaskService {
         route: 'task/drivers/:driverId',
         status: 500,
       });
-      this.loggerPrint.error(error.message);
-      throw new BadRequestException(error.message);
+      this.loggerPrint.error(error);
+      throw new BadRequestException(error);
     }
   }
 }

@@ -20,8 +20,17 @@ export class ChatTasksService {
             const newTask = this.chatTasksRepository.create(dtobody);
             await this.chatTasksRepository.save(newTask);
         } catch (error) {
-            this.loggerPrint.error(error.message);
-            throw new BadRequestException(error.message);
+            this.loggerPrint.error((error as Error).message);
+            throw new BadRequestException((error as Error).message);
+        }
+    }
+
+    async findByUserId(userId: number): Promise<ChatTaskEntity[]> {
+        try {
+            return await this.chatTasksRepository.find({ where: { user: { id: Number(userId) } } });
+        } catch (error) {
+            this.loggerPrint.error((error as Error).message);
+            throw new BadRequestException((error as Error).message);
         }
     }
 }

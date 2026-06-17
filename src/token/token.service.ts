@@ -22,8 +22,8 @@ export class TokenService {
                 token: dto.token,
             });
         } catch (error) {
-            this.loggerPrint.error(error.message);
-            throw new BadRequestException(error.message);
+            this.loggerPrint.error(error);
+            throw new BadRequestException(error);
         }
     }
 
@@ -31,8 +31,8 @@ export class TokenService {
         try {
             return await this.tokenRepository.findOne({ where: { token } });
         } catch (error) {
-            this.loggerPrint.error(error.message);
-            throw new BadRequestException(error.message);
+            this.loggerPrint.error(error);
+            throw new BadRequestException(error);
         }
     }
 
@@ -40,8 +40,8 @@ export class TokenService {
         try {
             await this.tokenRepository.deleteAll();
         } catch (error) {
-            this.loggerPrint.error(error.message);
-            throw new BadRequestException(error.message);
+            this.loggerPrint.error(error);
+            throw new BadRequestException(error);
         }
     }
 }

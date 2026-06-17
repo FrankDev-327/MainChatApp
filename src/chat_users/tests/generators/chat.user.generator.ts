@@ -4,7 +4,7 @@ faker.seed(123456);
 
 export function generateChatUser(override = {}) {
   const loginDto: LoginUserDto = {
-    userName: faker.person.firstName(),
+    email: faker.person.firstName(),
     password: faker.internet.password(),
     checkTypeAuth: ''
   };

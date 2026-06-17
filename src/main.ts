@@ -11,27 +11,15 @@ import {
   httpRequestSizeBytes,
   httpResponseSizeBytes,
 } from './prometheus-chatapp/prometheus-chatapp.exporters';
-import { AsyncApiDocumentBuilder, AsyncApiModule } from 'nestjs-asyncapi';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const logger = app.get(LoggerPrint);
-  if (process.env.NODE_ENV !== 'production') app.useLogger(logger);
+  if (process.env.NODE_ENV !== 'prod') app.useLogger(logger);
 
   app.enableCors({
     origin: process.env.CORS_ORIGIN,
   });
-
-  const asyncApiOptions = new AsyncApiDocumentBuilder()
-    .setTitle('Real-time Chat Sky Track')
-    .setDescription('For authentication, token has to be sent by headers as **token** variable name')
-    .setVersion('1.0')
-    .setDefaultContentType('application/json')
-    .addServer('chat-server', {
-      url: 'ws://localhost:3001/chat-message',
-      protocol: 'socket.io',
-    })
-    .build();
 
   const config = new DocumentBuilder()
     .setTitle('Chat swagger documentation')
@@ -56,9 +44,6 @@ async function bootstrap() {
   }); */
 
   const document = SwaggerModule.createDocument(app, config);
-  const asyncapiDocument = AsyncApiModule.createDocument(app, asyncApiOptions);
-
-  await AsyncApiModule.setup('asyncapi', app, asyncapiDocument);
   SwaggerModule.setup('/field-docs', app, document);
 
   await app.listen(3001);

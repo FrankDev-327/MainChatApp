@@ -1,10 +1,9 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
-
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeorm';
 
 @Entity('chat_messages')
 export class ChatMessageEntity {
-  @PrimaryGeneratedColumn({ name: 'message_id' })
-  messageId: number;
+  @PrimaryGeneratedColumn({ name: 'id', type: 'int', })
+  id: number;
 
   @Column({ name: 'sender_id', type: 'int' })
   senderId: number;
@@ -34,21 +33,12 @@ export class ChatMessageEntity {
   })
   messageType: 'TEXT' | 'IMAGE' | 'COORDINATES' | 'TEMPLATE' | 'DOCUMENT';
 
-  @Column({ name: 'is_urgent', type: 'boolean', width: 1, default: 0 })
-  isUrgent: number;
-
-  @Column({ name: 'is_notification', type: 'boolean', width: 1, default: 0 })
-  isNotification: number;
-
-  @Column({
+  @CreateDateColumn({
     name: 'created_at',
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP',
   })
   createdAt: string | null;
-
-  @Column({ name: 'stored_at', type: 'timestamp', nullable: true })
-  storedAt: string | null;
 
   @Column({ name: 'position', type: 'text', nullable: true })
   position?: string | {};

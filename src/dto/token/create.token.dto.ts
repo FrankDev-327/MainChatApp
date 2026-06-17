@@ -1,4 +1,4 @@
-import { IsInt, IsNotEmpty, IsString } from 'class-validator';
+import { IsBoolean, IsInt, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class CreateTokenDto {
   @IsInt()
@@ -8,4 +8,16 @@ export class CreateTokenDto {
   @IsString()
   @IsNotEmpty()
   token: string;
+
+  @IsString()
+  @IsNotEmpty()
+  group: string | null;
+
+  @IsNumber()
+  @IsNotEmpty()
+  groupId: number | 0;
+
+  @IsBoolean()
+  @IsNotEmpty()
+  dbType: boolean | false
 }

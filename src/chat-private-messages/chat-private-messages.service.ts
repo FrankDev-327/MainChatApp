@@ -42,10 +42,7 @@ export class ChatPrivateMessagesService {
       taskId: dto?.group_id ? 0 : dto.taskId,
       content: messageContent,
       messageType: dto.message_type,
-      isUrgent: dto.is_urgent,
-      isNotification: dto.is_notification,
       position: dto.position ? dto.position : '{}',
-      storedAt: new Date().toISOString(),
       fileUrl: dto?.file || '',
     });
 
@@ -75,7 +72,7 @@ export class ChatPrivateMessagesService {
         route: messageContent,
         status: 500,
       });
-      this.loggerPrint.error(`Error saving message: ${error.message}`);
+      this.loggerPrint.error(`Error saving message: ${error}`);
     }
   }
 
@@ -83,7 +80,7 @@ export class ChatPrivateMessagesService {
     try {
       await this.chatPrivateMessagesRepository.deleteAll();
     } catch (error) {
-      this.loggerPrint.error(`Error saving message: ${error.message}`);
+      this.loggerPrint.error(`Error saving message: ${error}`);
     }
   }
 }

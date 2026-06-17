@@ -17,14 +17,9 @@ import { OnModuleInit } from '@nestjs/common';
 import {
   totalSocketCounter,
   totalMessagesConter,
+  restResponseTimeHistogram
 } from '../prometheus-chatapp/prometheus-chatapp.exporters';
-import { AsyncApiPub, AsyncApiSub } from 'nestjs-asyncapi';
-import { restResponseTimeHistogram } from '../prometheus-chatapp/prometheus-chatapp.exporters';
 import { ChatPrivateMessagesService } from '../chat-private-messages/chat-private-messages.service';
-import { SendGroupMessageWithEntryPointDto } from '../dto/chat.socket.messages/entry.message.point.dto';
-import { SendPrivateTaskMessageDto } from '../dto/chat.socket.messages/task.entry,message.dto';
-import { SendGroupMessageResponseDto } from '../dto/chat.socket.messages/group.emit.message.dto';
-import { PrivateMessageResponseDto } from '../dto/chat.socket.messages/directo.emit.message.dto';
 //import { RabbitSubscribe } from '@golevelup/nestjs-rabbitmq';
 
 @WebSocketGateway({
@@ -120,12 +115,6 @@ export class ChatMessengerGateway
 
       this.socketUserClients.set(payload.userId, client);
       this.loggerPrint.log(`Client connected: ${client.id}`);
-      //if (payload.isAdmin === 'N') {
-      client.join(`group-room-${payload.userGroupId}`);
-      this.loggerPrint.log(
-        `Client ${client.id} joined room: ${payload.userGroupId}`,
-      );
-      //}
 
       const onlineUser = "users-online";
       const userInfo = `user-info-${payload.userId}`;
@@ -150,7 +139,7 @@ export class ChatMessengerGateway
       });
     } catch (error) {
       this.loggerPrint.error(
-        `Connection error for client ${client.id} : ${error.message}`,
+        `Connection error for client ${client.id} : ${(error as Error).message}`,
       );
       totalSocketCounter.inc({
         method: 'handle-token',
@@ -179,11 +168,6 @@ export class ChatMessengerGateway
   }
 
   @SubscribeMessage('entry-message')
-  @AsyncApiPub({
-    channel: 'entry-message',
-    summary: 'Entry point for every single socket event - (messageClient to server)',
-    message: { payload: SendGroupMessageWithEntryPointDto },
-  })
   async handleMessage(client: Socket, payload: any): Promise<boolean> {
     await this.chatPrivateMessagesService.createNewPrivateMessage(payload);
     return true;
@@ -191,11 +175,6 @@ export class ChatMessengerGateway
 
 
   @SubscribeMessage('task-message')
-  @AsyncApiPub({
-    channel: 'task-message',
-    summary: 'Entry point for every task assigned to specific driver - (messageClient to server)',
-    message: { payload: SendPrivateTaskMessageDto },
-  })
   async handleTaskMessage(client: Socket, payload: any): Promise<boolean> {
     await this.chatPrivateMessagesService.createNewPrivateMessage(payload);
     return true;
@@ -223,11 +202,6 @@ export class ChatMessengerGateway
     }
   }
 
-  @AsyncApiSub({
-    channel: 'direct-task-message-TASKID',
-    summary: 'Receive message from server - **TASKID** represent taskId concated to the string **direct-task-message-3**',
-    message: { payload: PrivateMessageResponseDto },
-  })
   async handleTaskDirectMessage(payload): Promise<void> {
     let timerDatabaseRepsonse;
     const channel = `direct-task-message-${payload.taskId}`;
@@ -265,11 +239,6 @@ export class ChatMessengerGateway
     senderClientSocket?.emit(channel, payload);
   }
 
-  @AsyncApiSub({
-    channel: 'direct-message',
-    summary: 'Receive message from server',
-    message: { payload: PrivateMessageResponseDto },
-  })
   async handleDirectMessage(payload): Promise<void> {
     let timerDatabaseRepsonse, channel = 'direct-message';
     timerDatabaseRepsonse = restResponseTimeHistogram.startTimer();
@@ -289,28 +258,13 @@ export class ChatMessengerGateway
       status: 200,
     });
 
-    const messageAck = {
-      type: "message",
-      action: "create_ack",
-      timestamp: payload.createdAt,
-      client_id: payload.chatUserIds.receiverId,
-      message_server_id: payload.messageId,
-      attachments: []
-    }
-
     totalMessagesConter.inc({ method: channel });
 
     //TODO this message should be sent first
-    senderClientSocket?.emit(channel, messageAck);
     reveiverClientSocket?.emit(channel, payload);
     senderClientSocket?.emit(channel, payload);
   }
 
-  @AsyncApiSub({
-    channel: 'group-message',
-    summary: 'Receive message from server',
-    message: { payload: SendGroupMessageResponseDto },
-  })
   async handleGroupMessage(payload): Promise<void> {
     let timerDatabaseRepsonse;
     if (Object.keys(payload?.position).length > 0) payload.position = JSON.parse(payload?.position);

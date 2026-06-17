@@ -9,6 +9,9 @@ export function generateTokenUnitTest(override = {}) {
       .words({ count: { min: 20, max: 80 } })
       .replace(/\s+/g, '-')
       .toLowerCase(),
+    group: '',
+    groupId: 0,
+    dbType: false
   };
 
   return token;

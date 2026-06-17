@@ -1,3 +1,4 @@
+import 'multer';
 import * as Minio from 'minio';
 import { LoggerPrint } from '../logger/logger.print';
 import { Injectable } from '@nestjs/common';
@@ -54,8 +55,6 @@ export class UploadfilesService {
         taskId: !dto?.group_id ? 0 : dto.taskId,
         message_type: dto.message_type,
         message: '',
-        is_urgent: dto.is_urgent,
-        is_notification: dto.is_notification,
         lat: dto.lat,
         lon: dto.lon,
         lonCoodinate: '',
@@ -71,7 +70,7 @@ export class UploadfilesService {
         route: 'uploadfiles',
         status: 500,
       });
-      this.loggerPrint.error('Error uploading base64 to MinIO:', error.message);
+      this.loggerPrint.error('Error uploading base64 to MinIO:', error);
     }
   }
 
@@ -92,7 +91,7 @@ export class UploadfilesService {
         status: 500,
       });
       this.loggerPrint.error(
-        `Error getting file from Minio bucket ${error.message}`,
+        `Error getting file from Minio bucket ${error}`,
       );
 
       return null;

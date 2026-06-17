@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { FilterByDate, TaskStatus } from '../../entities/chat.task.entity';
+import { FilterByDate, TaskStatus } from '../../entities/chatt.tasks.entity';
 import { IsInt, IsOptional, IsString, IsEnum, IsDateString } from 'class-validator';
 
 export class ChatTaskListingByDriverDto {

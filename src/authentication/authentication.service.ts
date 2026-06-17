@@ -1,4 +1,5 @@
 import { JwtService } from '@nestjs/jwt';
+import { Helper } from '../utils/helper';
 import { CreateTokenDto } from '../dto/token/create.token.dto';
 import { TokenService } from '../token/token.service';
 import { LoginUserDto } from '../dto/auth/login.dto';
@@ -18,28 +19,33 @@ export class AuthenticationService {
 
     async validateUser(dto: LoginUserDto) {
         const timer = databaseResponseTimeHistogram.startTimer();
-        try {            
+        try {
             const user = await this.chatUsersService.findByUserName(dto);
             if (!user) {
                 totalRequestConter.inc({ method: 'POST', route: '/authentication', status: '400' });
-                this.loggerPrint.warn('User not found with the provided username.');
+                this.loggerPrint.error('Invalid password provided for user.');
+                throw new NotFoundException('The user name or password are wrong. Try again.');
+            }
+
+            const comparePassword = await Helper.comparePassword(dto.password, user.password);
+            if (!comparePassword) {
+                totalRequestConter.inc({ method: 'POST', route: '/authentication', status: '400' });
+                this.loggerPrint.error('Invalid password provided for user.');
                 throw new NotFoundException('The user name or password are wrong. Try again.');
             }
 
             const tokenGenerated = await this.jwtService.sign({
-                userId: user.UserID,
-                userName: user.UserName,
-                userGroupId: user.UserGroupID,
-                drivePriv: user.DrivePriv,
-                userCarPriv: user.CarPriv,
-                userObjPriv: user.ObjectPriv,
-                userZonePriv: user.ZonePriv,
-                isAdmin: user.IsAdmin
+                userId: user.id,
+                userName: user.firstName,
+                email: user.email,
             });
 
             const tokenToInsert: CreateTokenDto = {
-                userId: user.UserID,
+                userId: user.id,
                 token: tokenGenerated,
+                dbType: user?.dbGroup?.dbType,
+                groupId: user?.dbGroup?.id,
+                group: user?.dbGroup?.name
             };
 
             await this.tokenService.createToken(tokenToInsert);
@@ -47,13 +53,13 @@ export class AuthenticationService {
             return { token: tokenGenerated }
         } catch (error) {
             totalRequestConter.inc({ method: 'POST', route: '/authentication', status: '500' });
-            this.loggerPrint.error(`Error during user validation: ${error.message}`);
+            this.loggerPrint.error(`Error during user validation: ${error}`);
             if (error instanceof NotFoundException) {
                 this.loggerPrint.error(error.message);
                 throw new NotFoundException(error.message);
             }
 
-            this.loggerPrint.error(error.message);
+            this.loggerPrint.error(error);
             throw new BadRequestException('Token generation failed.');
         }
     }
